@@ -207,7 +207,10 @@ if st.button('Get Risk Statistics'):
                
                count = 0
                distribution = norm(result1[str(perp)].mean(), result[str(perp)].std())
-               copula_object = distribution.ppf(copula[:, count])
+               try:
+                    copula_object = distribution.ppf(copula[:, count])
+               except:
+                    copula_object = distribution.ppf(copula[:])
                price_paths = np.full((hours, 1), float(1))
                price_paths[0] = [parameters_df.loc[parameters_df['name'] == str(perp), 'start_price'].iloc[0]]
           
