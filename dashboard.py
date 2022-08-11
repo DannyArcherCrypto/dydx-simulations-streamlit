@@ -79,9 +79,11 @@ if st.button('Get Risk Statistics'):
                timeseries = pd.concat([timeseries, api_result])
                timeseries = timeseries.drop_duplicates(subset=['startedAt'])    
                start_time = end_time
-               
-               timeseries.to_pickle("./Price_Data/" + str(time_increment) + "/" + str(perp) + ".pkl")
-               timeseries = pd.read_pickle("./Price_Data/" + str(time_increment) + "/" + str(perp) + ".pkl")
+               try:
+                    timeseries.to_pickle("./Price_Data/" + str(time_increment) + "/" + str(perp) + ".pkl")
+                    timeseries = pd.read_pickle("./Price_Data/" + str(time_increment) + "/" + str(perp) + ".pkl")
+               except:
+                    pass
                
                if start_time > today:
                     new_results = False
