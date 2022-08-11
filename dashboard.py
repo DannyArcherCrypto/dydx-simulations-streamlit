@@ -34,6 +34,7 @@ for perp in options:
 
 Initial_USDC = st.number_input('Account Equity (USDC)')
 st.write('Account USDC: ', Initial_USDC)
+iterations = color = st.select_slider('Iterations in simulation', options=[100, 1000, 10000])
 
 if st.button('Get Risk Statistics'):
      ########### GET DATA ##############
@@ -137,7 +138,6 @@ if st.button('Get Risk Statistics'):
 
      #Initial Variables 
      hours = 24
-     iterations = 100
 
      portfolio_paths = pd.DataFrame()
      liquidation_scenarios = pd.DataFrame()
@@ -164,8 +164,8 @@ if st.button('Get Risk Statistics'):
      st.subheader("Historical Simulation")
      st.line_chart(portfolio_paths)
      df = liquidation_scenarios.apply(pd.Series.value_counts).T
-     for x in range(0,100):
-          headers = list(range(0, 100))
+     for x in range(0,iterations):
+          headers = list(range(0, iterations))
      
      liquidation_scenarios.columns = headers
 
@@ -199,7 +199,7 @@ if st.button('Get Risk Statistics'):
      portfolio_paths_MC = pd.DataFrame()
      liquidation_scenarios_MC = pd.DataFrame()
 
-     for x in range(0,100):
+     for x in range(0,iterations):
           maintenance_margin_list = []
           Total_Account_Value_list = []
 
@@ -236,8 +236,8 @@ if st.button('Get Risk Statistics'):
           portfolio_paths_MC = pd.concat([portfolio_paths_MC, pd.DataFrame(Total_Account_Value_list)], axis=1)
           liquidation_scenarios_MC = pd.concat([liquidation_scenarios_MC, pd.DataFrame(Total_Account_Value_list < maintenance_margin)], axis=1)
 
-     for x in range(0,100):
-          headers = list(range(0, 100))
+     for x in range(0,iterations):
+          headers = list(range(0, iterations))
      portfolio_paths_MC.columns = headers
 
      liquidation_scenarios_MC.columns = headers
